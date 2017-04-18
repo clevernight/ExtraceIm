@@ -1,5 +1,7 @@
 package extrace.ui.main;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import android.content.Intent;
@@ -13,8 +15,23 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.PolylineOptions;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.trace.LBSTraceClient;
+import com.baidu.trace.OnStartTraceListener;
+import com.baidu.trace.OnStopTraceListener;
+import com.baidu.trace.OnTrackListener;
+
 import extrace.ui.domain.ExpressListFragment;
 import extrace.ui.domain.ExpressListFragment.OnFragmentInteractionListener;
+import map.LocationActivity;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener,OnFragmentInteractionListener {
 
@@ -36,6 +53,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
+        //注意该方法要再setContentView方法之前实现
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
         // Set up the action bar.
@@ -85,6 +105,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Intent intent = new Intent();
         int id = item.getItemId();
         switch(id){
         case R.id.action_login:
@@ -92,12 +113,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         case R.id.action_logout:
             return true;
         case R.id.action_settings:
-    		Intent intent = new Intent();
     		intent.setClass(this, SettingsActivity.class);
     		startActivityForResult(intent, 0);
             return true;
-        case R.id.action_my_location:
-            
+        case R.id.action_my_location:               //我的位置
+            intent.setClass(this, LocationActivity.class);
+            startActivityForResult(intent, 0);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -171,4 +192,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 		
 	}
 
+
+    //与地图相关的变量
 }

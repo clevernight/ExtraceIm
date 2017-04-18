@@ -115,6 +115,9 @@
             android:name="extrace.ui.main.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <activity android:name="map.LocationActivity"
+            android:label="@string/action_my_location">
+        </activity>
     </application>
 
 </manifest>
