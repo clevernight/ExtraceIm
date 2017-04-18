@@ -5,6 +5,7 @@ import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -31,6 +32,7 @@ public class LocationActivity extends AppCompatActivity implements BDLocationLis
 
     private BaiduMap mBaiduMap = null;
     private MapView mMapView = null;
+    private TextView mapLocation = null;
 
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class LocationActivity extends AppCompatActivity implements BDLocationLis
 
         mMapView = (MapView)findViewById(R.id.location_map);
         mBaiduMap = mMapView.getMap();
-
+        mapLocation = (TextView)findViewById(R.id.location);
 
         getLocation();
     }
@@ -103,6 +105,9 @@ public class LocationActivity extends AppCompatActivity implements BDLocationLis
         MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(ll, 16);   //设置地图中心点以及缩放级别
 //              MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
         mBaiduMap.animateMapStatus(u);
+
+        mapLocation.setText(bdLocation.getProvince()+bdLocation.getCity()+bdLocation.getDistrict());
+//        mapLocation.setText(bdLocation.getAddrStr());
     }
 
     @Override
