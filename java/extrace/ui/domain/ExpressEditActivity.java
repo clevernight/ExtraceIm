@@ -1,7 +1,13 @@
 package extrace.ui.domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import extrace.misc.model.TraceInfo;
 import zxing.util.CaptureActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +19,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import extrace.loader.ExpressLoader;
 import extrace.misc.model.CustomerInfo;
 import extrace.misc.model.ExpressSheet;
@@ -51,6 +61,7 @@ public class ExpressEditActivity extends ActionBarActivity implements ActionBar.
 	private ExpressEditFragment2 externFragment; 
 	private MenuItem action_menu_item;
 	private boolean new_es = false;	//新建
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -247,6 +258,7 @@ public class ExpressEditActivity extends ActionBarActivity implements ActionBar.
 	void MenuDisplay(int status){
 		action_menu_item.setVisible(true);
 		action_menu_item.setEnabled(true);
+
 		switch(status){
 		case ExpressSheet.STATUS.STATUS_CREATED:
 			action_menu_item.setTitle("收件");
@@ -563,6 +575,37 @@ public class ExpressEditActivity extends ActionBarActivity implements ActionBar.
 //					.findViewById(R.id.section_label);
 //			textView.setText(Integer.toString(getArguments().getInt(
 //					ARG_SECTION_NUMBER)));
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date start1, start2, end1, end2;
+			start1 = start2 = end1 = end2 = new Date();
+			try {
+				start1 = sdf.parse("2017-04-19 08:00:00");
+				start2 = sdf.parse("2017-04-19 18:00:00");
+				end1 = sdf.parse("2017-04-19 08:00:00");
+				end2 = sdf.parse("2017-04-19 18:00:00");
+			} catch (ParseException e) {
+				Log.i("ParseException", e.getMessage());
+			}
+			List<TraceInfo> traceInfos = new ArrayList<TraceInfo>();
+
+			TraceInfo traceInfo1 = new TraceInfo();
+			traceInfo1.setUID(Integer.parseInt("hongmi"));
+			traceInfo1.setStartTime(start1);
+			traceInfo1.setEndTime(end1);
+			traceInfo1.setNodeName("高新区");
+			traceInfos.add(traceInfo1);
+
+			TraceInfo traceInfo2 = new TraceInfo();
+			traceInfo2.setUID(Integer.parseInt("mycar"));
+			traceInfo2.setStartTime(start2);
+			traceInfo2.setEndTime(end2);
+			traceInfo2.setNodeName("中原区");
+			traceInfos.add(traceInfo2);
+
+			Button getTraceButton = (Button)rootView.findViewById(R.id.track_button);
+
+
 			return rootView;
 		}
 	}

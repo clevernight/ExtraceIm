@@ -6,9 +6,15 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="extrace.ui.main.ExpressEditActivity$ExpressEditFragment2" >
+    tools:context="extrace.ui.domain.ExpressEditActivity$ExpressEditFragment2" >
 
+    <Button
+        android:text="@string/track_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/track_button"/>
     <TextView
+        android:layout_below="@+id/track_button"
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

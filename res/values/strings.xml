@@ -150,5 +150,6 @@
     <string name="title_activity_express_edit">快件信息</string>
     <string name="title_ex_edit1">基本信息</string>
     <string name="title_ex_edit2">扩展信息</string>
-    
+
+    <string name="track_button">追踪路线</string>
 </resources>
