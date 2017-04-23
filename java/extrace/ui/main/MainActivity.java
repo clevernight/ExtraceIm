@@ -13,25 +13,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.PolylineOptions;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.trace.LBSTraceClient;
-import com.baidu.trace.OnStartTraceListener;
-import com.baidu.trace.OnStopTraceListener;
-import com.baidu.trace.OnTrackListener;
 
 import extrace.ui.domain.ExpressListFragment;
 import extrace.ui.domain.ExpressListFragment.OnFragmentInteractionListener;
 import map.LocationActivity;
+import map.TraceService;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener,OnFragmentInteractionListener {
 
@@ -57,6 +49,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
+        //开启鹰眼轨迹服务
+        if (!TraceService.isStart()) {
+            TraceService.start(getApplicationContext(), "123456");
+        }
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
@@ -193,5 +190,4 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 	}
 
 
-    //与地图相关的变量
 }

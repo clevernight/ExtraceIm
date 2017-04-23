@@ -1,12 +1,13 @@
 package extrace.misc.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Administrator on 2017/4/18.
  */
 
-public class TraceInfo {
+public class TraceInfo implements Serializable {
     private int UID;
     private Date startTime;
     private Date endTime;

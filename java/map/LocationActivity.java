@@ -103,11 +103,9 @@ public class LocationActivity extends AppCompatActivity implements BDLocationLis
         LatLng ll = new LatLng(bdLocation.getLatitude(),
                 bdLocation.getLongitude());
         MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(ll, 16);   //设置地图中心点以及缩放级别
-//              MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
         mBaiduMap.animateMapStatus(u);
 
         mapLocation.setText(bdLocation.getProvince()+bdLocation.getCity()+bdLocation.getDistrict());
-//        mapLocation.setText(bdLocation.getAddrStr());
     }
 
     @Override
@@ -119,7 +117,9 @@ public class LocationActivity extends AppCompatActivity implements BDLocationLis
     protected void onDestroy() {
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
-        mLocationClient.stop();
+        if (mLocationClient != null && mLocationClient.isStarted()) {
+            mLocationClient.stop();
+        }
         mMapView.onDestroy();
     }
     @Override

@@ -1,5 +1,6 @@
 package extrace.ui.domain;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Locale;
 
 import extrace.misc.model.TraceInfo;
+import map.TraceActivity;
 import zxing.util.CaptureActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateFormat;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -581,30 +584,50 @@ public class ExpressEditActivity extends ActionBarActivity implements ActionBar.
 			start1 = start2 = end1 = end2 = new Date();
 			try {
 				start1 = sdf.parse("2017-04-19 08:00:00");
-				start2 = sdf.parse("2017-04-19 18:00:00");
-				end1 = sdf.parse("2017-04-19 08:00:00");
+				start2 = sdf.parse("2017-04-19 08:00:00");
+				end1 = sdf.parse("2017-04-19 18:00:00");
 				end2 = sdf.parse("2017-04-19 18:00:00");
 			} catch (ParseException e) {
 				Log.i("ParseException", e.getMessage());
 			}
-			List<TraceInfo> traceInfos = new ArrayList<TraceInfo>();
+			final List<TraceInfo> traceInfos = new ArrayList<TraceInfo>();
 
 			TraceInfo traceInfo1 = new TraceInfo();
-			traceInfo1.setUID(Integer.parseInt("hongmi"));
+			traceInfo1.setUID(Integer.parseInt("123456"));
 			traceInfo1.setStartTime(start1);
 			traceInfo1.setEndTime(end1);
 			traceInfo1.setNodeName("高新区");
 			traceInfos.add(traceInfo1);
 
 			TraceInfo traceInfo2 = new TraceInfo();
-			traceInfo2.setUID(Integer.parseInt("mycar"));
+			traceInfo2.setUID(Integer.parseInt("123456"));
 			traceInfo2.setStartTime(start2);
 			traceInfo2.setEndTime(end2);
 			traceInfo2.setNodeName("中原区");
 			traceInfos.add(traceInfo2);
 
-			Button getTraceButton = (Button)rootView.findViewById(R.id.track_button);
+			TextView section_label = (TextView)rootView.findViewById(R.id.section_label);
+			String traceString = "";
+			if (traceInfos.size() == 0) {
+				traceString = "暂无追踪显示";
+			} else {
+				for (TraceInfo traceInfo : traceInfos) {
+					traceString += sdf.format(traceInfo.getEndTime()) + "   到达  " + traceInfo.getNodeName() + "\n";
+				}
+				section_label.setMovementMethod(ScrollingMovementMethod.getInstance()) ;
+			}
+			section_label.setText(traceString);
 
+			Button getTraceButton = (Button)rootView.findViewById(R.id.track_button);
+			getTraceButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent();
+					intent.setClass(getActivity(), TraceActivity.class);
+					intent.putExtra("traceInfos", (Serializable)traceInfos);
+					getActivity().startActivityForResult(intent, 0);
+				}
+			});
 
 			return rootView;
 		}

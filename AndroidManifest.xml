@@ -48,6 +48,7 @@
     <!-- 用于优化GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
+
     <application
         android:name="extrace.ui.main.ExTraceApplication"
         android:allowBackup="true"
@@ -61,7 +62,7 @@
             />
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>
-        <service android:name="com.baidu.trace.LBSTraceService" android:enabled="true" android:exported="true" >
+        <service android:name="com.baidu.trace.LBSTraceService" android:enabled="true"  android:process=":remote">
         </service>
         <activity
             android:name="extrace.ui.main.MainActivity"
@@ -117,6 +118,9 @@
         </activity>
         <activity android:name="map.LocationActivity"
             android:label="@string/action_my_location">
+        </activity>
+        <activity android:name="map.TraceActivity"
+            android:label="">
         </activity>
     </application>
 
